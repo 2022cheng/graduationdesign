@@ -1,0 +1,616 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Neon Admin Panel">
+    <meta name="author" content="">
+
+    <title>薪资预测plus</title>
+    <link rel="stylesheet" href="/static/css/jquery-ui-1.10.3.custom.min.css">
+    <link rel="stylesheet" href="/static/css/entypo.css">
+    <link rel="stylesheet" href="/static/css/css.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/neon-core.css">
+    <link rel="stylesheet" href="/static/css/neon-theme.css">
+    <link rel="stylesheet" href="/static/css/neon-forms.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
+
+    <script src="/static/js/jquery-1.11.0.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+     <style>
+        /* 整体布局样式 */
+        .salary-prediction-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .panel-primary {
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+
+        .panel-heading {
+            background: linear-gradient(135deg, #4a6bdf 0%, #6b46c1 100%) !important;
+            border-radius: 12px 12px 0 0 !important;
+            padding: 16px 22px;
+            border: none;
+        }
+
+        .panel-title {
+            font-size: 22px !important;
+            color: white !important;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .prediction-layout {
+            display: flex;
+            gap: 25px;
+            padding: 20px;
+        }
+
+        @media (max-width: 992px) {
+            .prediction-layout {
+                flex-direction: column;
+            }
+        }
+
+        /* 表单区域 */
+        .form-section {
+            flex: 1;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-section h3 {
+            color: #2d3748;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #4a6bdf;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #4a5568;
+            font-size: 14px;
+        }
+
+        .form-control {
+            font-size: 14px !important;
+            height: 42px !important;
+            border-radius: 8px !important;
+            border: 1px solid #d1d5db !important;
+            transition: all 0.25s ease;
+            padding: 8px 12px;
+        }
+
+        .form-control:focus {
+            border-color: #4a6bdf !important;
+            box-shadow: 0 0 0 3px rgba(74, 107, 223, 0.15) !important;
+        }
+
+        select.form-control {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 14px 10px;
+            appearance: none;
+            padding-right: 35px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        /* 结果区域 */
+        .result-section {
+            flex: 1;
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .result-section h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #48bb78;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .result-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        .predicted-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4a6bdf;
+            margin: 12px 0;
+            line-height: 1.2;
+        }
+
+        .predicted-unit {
+            font-size: 18px;
+            color: #718096;
+            margin-left: 5px;
+        }
+
+        .placeholder-text {
+            font-size: 16px;
+            color: #a0aec0;
+            padding: 30px 0;
+        }
+
+        .result-details {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 14px;
+            color: #718096;
+        }
+
+        .confidence-meter {
+            display: flex;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .meter-bar {
+            flex: 1;
+            height: 8px;
+            background: #edf2f7;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 12px;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78, #38a169);
+            width: 85%;
+            border-radius: 4px;
+        }
+
+        /* 按钮样式 */
+        .btn-primary {
+            background: #4a6bdf !important;
+            border: none !important;
+            padding: 10px 25px !important;
+            font-size: 15px !important;
+            border-radius: 8px !important;
+            transition: all 0.25s ease;
+            margin-top: 10px;
+            width: 100%;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary:hover {
+            background: #3b5bc7 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(74, 107, 223, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .prediction-layout {
+                padding: 15px;
+                gap: 20px;
+            }
+
+            .form-section, .result-section {
+                padding: 18px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+
+            .predicted-value {
+                font-size: 32px;
+            }
+        }
+    </style>
+
+
+</head>
+<body class="page-body  page-left-in" data-url="http://neon.dev">
+
+<div class="page-container">
+    <div class="sidebar-menu">
+        <header class="logo-env">
+            <div class="logo">
+                <a style="white-space: normal;text-align: center;" href="index.html">
+                    <h3 style="color: #fff1f0; font-weight: bold; margin-top: 5px;">
+                        python工程师全国招聘信息可视化平台</h3>
+                </a>
+            </div>
+        </header>
+        <div class="sidebar-user-info">
+
+            <div class="sui-normal">
+                <a href="#" class="user-link">
+                    <img style="width:95%;border-radius:50%" src="/media/{{ userInfo.avatar }}" width="120" alt="">
+                    <span style="text-align:center;padding-top:209px">欢迎回来,</span>
+                    <strong style="text-align:center;margin-top:5px">{{ userInfo.username }}</strong>
+                </a>
+            </div>
+        </div>
+        <ul id="main-menu" class="">
+            <li>
+                <a href="/myApp/home">
+                    <i class="entypo-gauge"></i>
+                    <span>首页</span>
+                </a>
+            </li>
+            <li class="opened active">
+                <a href="#">
+                    <i class="entypo-user"></i>
+                    <span>个人中心</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/selfInfo">
+                            <span>个人信息</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/myApp/changePassword">
+                            <span>修改密码</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-layout"></i>
+                    <span>数据统计</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/tableData">
+                            <span>数据总览</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/historyTableData">
+                            <span>历史查阅</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-chart-pie"></i>
+                    <span>可视化图表</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/salary">
+                            <i class="entypo-light-down"></i>
+                            <span>薪资情况</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/company">
+                            <i class="entypo-feather"></i>
+                            <span>企业情况</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/companyTags">
+                            <i class="entypo-feather"></i>
+                            <span>福利词云</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/educational">
+                            <i class="entypo-graduation-cap"></i>
+                            <span>学历分布</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/companyStatus">
+                            <i class="entypo-network"></i>
+                            <span>企业融资</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/address">
+                            <i class="entypo-rocket"></i>
+                            <span>城市类型</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-dribbble-circled"></i>
+                    <span>薪资预测</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/salarypredict">
+                            <i class="entypo-github"></i>
+                            <span>薪资预测</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/myApp/morePredict">
+                            <i class="entypo-chart-bar"></i>
+                            <span>薪资预测plus</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/moreAction">
+                            <i class="entypo-twitter"></i>
+                            <span> more action </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <div class="row" style="display:flex">
+            <div style="margin-left: auto" class="col-md-6 col-sm-4 clearfix hidden-xs">
+                <ul class="list-inline links-list pull-right">
+                    <li class="sep"></li>
+                    <li>
+                        <a href="/myApp/logOut">
+                            退出登录<i class="entypo-logout right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="salary-prediction-container">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">高级薪资预测模型</div>
+                </div>
+
+                <div class="prediction-layout">
+                    <!-- 左边：表单输入 -->
+                    <div class="form-section">
+                        <h3>薪资预测参数</h3>
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label>模型选择：</label>
+                                    <select name="modelType" class="form-control">
+                                        <option value="random_forest">随机森林模型</option>
+                                        <option value="xgboost">XGBoost模型</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>教育程度：</label>
+                                    <select name="educational" class="form-control">
+                                        <option value="5">博士</option>
+                                        <option value="4">硕士</option>
+                                        <option value="3" selected>本科</option>
+                                        <option value="2">大专</option>
+                                        <option value="1">不限</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>工作经验（年）：</label>
+                                    <input name="workExperience" type="number" class="form-control" step="0.5" value="2" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>工资月份数：</label>
+                                    <input name="salaryMonth" type="number" class="form-control" value="12" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>公司规模人数：</label>
+                                    <input name="companyPeople" type="number" class="form-control" value="100" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>岗位标签数：</label>
+                                    <input name="workTag_count" type="number" class="form-control" value="2" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>公司标签数：</label>
+                                    <input name="companyTags_count" type="number" class="form-control" value="2" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>城市：</label>
+                                    <input name="address" type="text" class="form-control" value="北京" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>岗位类型：</label>
+                                    <input name="type" type="text" class="form-control" value="后端开发" />
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label>公司性质：</label>
+                                    <input name="companyNature" type="text" class="form-control" value="民营" />
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <button type="submit" class="btn btn-primary">预测薪资</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- 右边：预测结果 -->
+                    <div class="result-section">
+                        <h3>预测结果</h3>
+                        <div class="result-content">
+                            {% if prediction_result %}
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="#48bb78">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </div>
+                                <div class="predicted-value">
+                                    {{ prediction_result }}<span class="predicted-unit">元/月</span>
+                                </div>
+                                <div class="text-muted">基于您的参数预测结果</div>
+                            {% else %}
+                                <div class="placeholder-text">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="#a0aec0">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                                    </svg>
+                                    <p>请填写左侧表单并提交</p>
+                                    <p>获取您的薪资预测结果</p>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="result-details">
+                            <div>
+                                <strong>模型说明：</strong>
+                                {% if prediction_result %}
+                                    {% if request.POST.modelType == "random_forest" %}
+                                        随机森林模型 - 基于多个决策树的集成学习方法
+                                    {% else %}
+                                        XGBoost模型 - 高性能梯度提升决策树算法
+                                    {% endif %}
+                                {% else %}
+                                    请选择预测模型
+                                {% endif %}
+                            </div>
+
+                            <div class="confidence-meter">
+                                <span>预测置信度：</span>
+                                <div class="meter-bar">
+                                    <div class="meter-fill"></div>
+                                </div>
+                                <span>85%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="main">
+            Copyright &copy; python工程师全国招聘数据可视化<a target="_blank" href="https://www.ccjinblog.info/"> &ensp;毕业设计</a>
+        </footer>
+    </div>
+</div>
+
+
+</div>
+
+<link rel="stylesheet" href="/static/css/jquery-jvectormap-1.2.2.css">
+<link rel="stylesheet" href="/static/css/rickshaw.min.css">
+<link rel="stylesheet" href="/static/css/datatables.responsive.css">
+<link rel="stylesheet" href="/static/css/select2-bootstrap.css">
+<link rel="stylesheet" href="/static/css/select2.css">
+<!-- Bottom Scripts -->
+<script src="/static/js/main-gsap.js"></script>
+<script src="/static/js/jquery-ui-1.10.3.minimal.min.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/joinable.js"></script>
+<script src="/static/js/resizeable.js"></script>
+<script src="/static/js/neon-api.js"></script>
+<script src="/static/js/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="/static/js/jquery-jvectormap-europe-merc-en.js"></script>
+<script src="/static/js/jquery-jvectormap-world-mill-en.js"></script>
+<script src="/static/js/jquery.sparkline.min.js"></script>
+<script src="/static/js/d3.v3.js"></script>
+<script src="/static/js/rickshaw.min.js"></script>
+<script src="/static/js/neon-chat.js"></script>
+<script src="/static/js/neon-custom.js"></script>
+<script src="/static/js/neon-demo.js"></script>
+<script src="/static/js/echarts.js"></script>
+<script src="/static/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/TableTools.min.js"></script>
+<script src="/static/js/dataTables.bootstrap.js"></script>
+<script src="/static/js/jquery.dataTables.columnFilter.js"></script>
+<script src="/static/js/lodash.min.js"></script>
+<script src="/static/js/datatables.responsive.js"></script>
+<script src="/static/js/fileinput.js"></script>
+<script>
+    function exportReport() {
+        const form = document.getElementById('salaryPredictionForm');
+        const formData = new FormData(form);
+
+        // 获取预测薪资值
+        const predictedSalary = document.getElementById('predictedSalary').innerText.replace('元/月', '').trim();
+
+        // 创建URL参数
+        const params = new URLSearchParams();
+
+        // 添加表单数据
+        for (const [key, value] of formData.entries()) {
+            params.append(key, value);
+        }
+
+        // 添加预测薪资
+        params.append('predicted_salary', predictedSalary);
+
+        // 打开新窗口下载PDF
+        window.open(`/myApp/exportReport/?${params.toString()}`, '_blank');
+    }
+
+</script>
+
+</body>
+</html>

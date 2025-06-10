@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Neon Admin Panel">
+    <meta name="author" content="">
+
+    <title>首页</title>
+
+    <link rel="stylesheet" href="/static/css/jquery-ui-1.10.3.custom.min.css">
+    <link rel="stylesheet" href="/static/css/entypo.css">
+    <link rel="stylesheet" href="/static/css/css.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/neon-core.css">
+    <link rel="stylesheet" href="/static/css/neon-theme.css">
+    <link rel="stylesheet" href="/static/css/neon-forms.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
+
+    <script src="/static/js/jquery-1.11.0.min.js"></script>
+
+    <script src="assets/js/ie8-responsive-file-warning.js"></script>
+
+
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
+
+</head>
+<body class="page-body  page-left-in" data-url="http://neon.dev">
+
+<div class="page-container" >
+    <!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
+
+    <div class="sidebar-menu">
+
+
+        <header class="logo-env">
+            <div class="logo">
+                <a style="white-space: normal;text-align: center;" href="/myApp/home/">
+                    <h3 style="color: #fff1f0; font-weight: bold; margin-top: 5px;">
+                        python工程师全国招聘信息可视化平台</h3>
+                </a>
+            </div>
+
+        </header>
+
+
+        <div class="sidebar-user-info">
+
+            <div class="sui-normal">
+                <a href="#" class="user-link">
+                    <img style="width:100%;border-radius:50%" src="/media/{{ userInfo.avatar }}" alt="">
+                    <span style="text-align:center;padding-top:209px">欢迎回来</span>
+                    <strong style="text-align:center;margin-top:5px">{{ userInfo.username }}</strong>
+                </a>
+            </div>
+
+            {#            <div class="sui-hover inline-links animate-in">#}
+            {#                <!-- You can remove "inline-links" class to make links appear vertically, class "animate-in" will make A elements animateable when click on user profile -->#}
+            {#                <a href="#">#}
+            {#                    <i class="entypo-pencil"></i>#}
+            {#                    New Page#}
+            {#                </a>#}
+            {##}
+            {#                <a href="mailbox.html">#}
+            {#                    <i class="entypo-mail"></i>#}
+            {#                    Inbox#}
+            {#                </a>#}
+            {##}
+            {#                <a href="extra-lockscreen.html">#}
+            {#                    <i class="entypo-lock"></i>#}
+            {#                    Log Off#}
+            {#                </a>#}
+            {##}
+            {#                <span class="close-sui-popup">&times;</span><!-- this is mandatory -->            </div>#}
+        </div>
+
+
+        <ul id="main-menu" class="">
+
+            <li class="opened active">
+                <a href="/myApp/home">
+                    <i class="entypo-gauge"></i>
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-user"></i>
+                    <span>个人中心</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/selfInfo">
+                            <span>个人信息</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/changePassword">
+                            <span>修改密码</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-layout"></i>
+                    <span>数据统计</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/tableData">
+                            <span>数据总览</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/historyTableData">
+                            <span>历史查阅</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-chart-pie"></i>
+                    <span>可视化图表</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/salary">
+                            <i class="entypo-light-down"></i>
+                            <span>薪资情况</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/company">
+                            <i class="entypo-feather"></i>
+                            <span>企业情况</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/companyTags">
+                            <i class="entypo-feather"></i>
+                            <span>福利词云</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/educational">
+                            <i class="entypo-graduation-cap"></i>
+                            <span>学历分布</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/companyStatus">
+                            <i class="entypo-network"></i>
+                            <span>企业融资</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/address">
+                            <i class="entypo-rocket"></i>
+                            <span>城市类型</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-dribbble-circled"></i>
+                    <span>薪资预测</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/salarypredict">
+                            <i class="entypo-github"></i>
+                            <span>薪资预测</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/morePredict">
+                            <i class="entypo-chart-bar"></i>
+                            <span>薪资预测plus</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/moreAction">
+                            <i class="entypo-twitter"></i>
+                            <span> more action </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+    <div class="main-content">
+
+        <div class="row" style="display: flex">
+            <!-- Raw Links -->
+            <div style="margin-left: auto" class="col-md-6 col-sm-4 clearfix hidden-xs">
+
+                <ul class="list-inline links-list pull-right">
+
+                    <li class="sep"></li>
+
+                    <li>
+                        <a href="/myApp/logOut">
+                            退出登录<i class="entypo-logout right"></i>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="well">
+                    <h1>{{ dataInfo.month }} {{ dataInfo.day }} {{ dataInfo.year }}</h1>
+                    <h3>Welcome to the site <strong>{{ userInfo.username }}</strong></h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-9">
+
+                <div class="row">
+
+                    <div class="col-sm-6">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">用户创建时间饼状图</div>
+
+                                <div class="panel-options">
+                                    {# <a href="#" data-toggle="modal" data-target="#sample-modal-dialog-1"#}
+                                    {# class="bg"><i class="entypo-cog"></i></a>#}
+                                    <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                                    <a href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a>
+                                </div>
+                            </div>
+                            <div class="panel-body" style="margin-top: 10px;">
+                                <div id="main" style="width: 100%;height: 317px;"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">最新用户信息</div>
+
+                                <div class="panel-options">
+                                    <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                                    <a href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a>
+
+                                </div>
+                            </div>
+                            <table class="table table-bordered table-responsive"
+                                   style="text-align: center; vertical-align: middle;">
+                                <thead>
+                                <tr>
+                                    <th style="text-align: center; vertical-align: middle;">序号</th>
+                                    <th style="text-align: center; vertical-align: middle;">用户名</th>
+{#                                    <th style="text-align: center; vertical-align: middle;">密码（MD5）</th>#}
+                                    <th style="text-align: center; vertical-align: middle;">创建时间</th>
+                                    <th style="text-align: center; vertical-align: middle;">用户头像</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for u in top6Users %}
+                                    <tr>
+                                        <td style="text-align: center; vertical-align: middle;">{{ forloop.counter }}</td>
+                                        <td style="text-align: center; vertical-align: middle;">{{ u.username }}</td>
+{#                                        <td style="text-align: center; vertical-align: middle;">{{ u.password }}</td>#}
+                                        <td style="text-align: center; vertical-align: middle;">{{ u.createTime }}</td>
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <img style="border-radius: 50%;" src="/media/{{ u.avatar }}" width="32"
+                                                 alt="">
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <h4>
+                                数据获取时间柱状图
+                            </h4>
+                        </div>
+
+                        <div class="panel-options">
+                            {#                            <a href="#sample-modal" data-toggle="modal" data-target="#sample-modal-dialog-1" class="bg"><i#}
+                            {#                                    class="entypo-cog"></i></a>#}
+                            <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                            <a href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="panel-body no-padding">
+                        <div id="rickshaw-chart-demo-2">
+                            <div id="mainTwo" style="width:100%;height:450px"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-sm-3">
+                <div class="tile-stats tile-green">
+                    <div class="icon"><i class="entypo-chart-bar"></i></div>
+                    <div class="num" data-start="0" data-end="{{ tagDic.jobsLen }}" data-postfix="" data-duration="1500"
+                         data-delay="0">{{ tagDic.jobsLen }}
+                    </div>
+
+                    <h3>数据总量统计</h3>
+                </div>
+                <div class="tile-stats ">
+                    <div class="icon"><i class="entypo-infinity"></i></div>
+                    <div class="num" data-start="0" data-end="{{ tagDic.salaryTop }}" data-postfix=""
+                         data-duration="1500"
+                         data-delay="0">{{ tagDic.salaryTop }}
+                    </div>
+
+                    <h3>行业最高薪资</h3>
+                </div>
+                <div class="tile-stats tile-aqua">
+                    <div class="icon"><i class="entypo-users"></i></div>
+                    <div class="num" data-start="0" data-end="{{ tagDic.usersLen }}" data-postfix=""
+                         data-duration="1500"
+                         data-delay="0">{{ tagDic.usersLen }}
+                    </div>
+
+                    <h3>用户数量统计</h3>
+                </div>
+                <div class="tile-stats tile-orange">
+                    <div class="icon"><i class="entypo-mail"></i></div>
+                    <div class="num" style="font-size: 24px;" data-postfix="" data-duration="1500"
+                         data-delay="0">{{ tagDic.educationsTop }}
+                    </div>
+
+                    <h3>行业最高学历</h3>
+                </div>
+                <div class="tile-stats tile-brown">
+                    <div class="icon"><i class="entypo-network"></i></div>
+                    <div class="num" style="font-size:24px" data-postfix="" data-duration="1500"
+                         data-delay="0">{{ tagDic.addressTop }}
+                    </div>
+
+                    <h3>优势城市</h3>
+                </div>
+                <div class="tile-stats tile-purple">
+                    <div class="icon"><i class="entypo-briefcase"></i></div>
+                    <div class="num" data-start="0" data-end="{{ tagDic.salaryMonthTop }}" data-postfix=""
+                         data-duration="1500"
+                         data-delay="0">{{ tagDic.salaryMonthTop }}
+                    </div>
+
+                    <h3>最高年底多薪</h3>
+                </div>
+                <div class="tile-stats tile-red">
+                    <div class="icon"><i class="entypo-layout"></i></div>
+                    <div class="num" style='font-size:24px' data-postfix="" data-duration="1500"
+                         data-delay="0">
+                        {% if not tagDic.praticeMax %}
+                            正常岗位
+                        {% else %}
+                            实习岗位
+                        {% endif %}
+                    </div>
+
+                    <h3>岗位性质</h3>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default" data-collapsed="0"><!-- to apply shadow add class "panel-shadow" -->
+                    <!-- panel head -->
+                    <div class="panel-heading">
+                        <div class="panel-title">数据表格</div>
+
+                        <div class="panel-options">
+                            {#                            <a href="#sample-modal" data-toggle="modal" data-target="#sample-modal-dialog-3" class="bg"><i#}
+                            {#                                    class="entypo-cog"></i></a>#}
+                            <a href="#" data-rel="collapse"><i class="entypo-down-open"></i></a>
+                            <a href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a>
+                            {#                            <a href="#" data-rel="close"><i class="entypo-cancel"></i></a>#}
+                        </div>
+                    </div>
+
+                    <!-- panel body -->
+                    <div class="panel-body no-padding">
+                        <div id="table-1_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                            <table style="text-align: center;" class="table table-bordered datatable dataTable"
+                                   id="table-1"
+                                   aria-describedby="table-1_info">
+                                <thead>
+                                <tr role="row">
+                                    <th style="text-align: center; vertical-align: middle;">编号</th>
+                                    <th style="text-align: center; vertical-align: middle;">职位名字</th>
+                                    <th style="text-align: center; vertical-align: middle;">工作地点</th>
+                                    <th style="text-align: center; vertical-align: middle;">职位类型</th>
+                                    <th style="text-align: center; vertical-align: middle;">学历要求</th>
+                                    <th style="text-align: center; vertical-align: middle;">工作经验</th>
+                                    <th style="text-align: center; vertical-align: middle;">工作标签</th>
+                                    <th style="text-align: center; vertical-align: middle;">最高薪水</th>
+                                    <th style="text-align: center; vertical-align: middle;">年底多薪</th>
+                                    <th style="text-align: center; vertical-align: middle;">是否实习</th>
+                                    <th style="text-align: center; vertical-align: middle;">公司名称</th>
+                                    <th style="text-align: center; vertical-align: middle;">公司福利</th>
+                                    <th style="text-align: center; vertical-align: middle;">公司封面</th>
+                                    <th style="text-align: center; vertical-align: middle;">融资阶段</th>
+                                    <th style="text-align: center; vertical-align: middle;">公司人数</th>
+                                    <th style="text-align: center; vertical-align: middle;">跳转</th>
+                                </tr>
+                                </thead>
+
+                                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                                {% for job in tableData %}
+                                    <tr class="gradeA odd">
+                                        <td class="sorting_1">
+                                            {{ forloop.counter }}
+                                        </td>
+                                        <td class="center">
+                                            <a href="https://www.zhipin.com/web/geek/job?query={{ job.title }}">
+                                                {{ job.title }}
+                                            </a>
+                                        </td>
+                                        <td class="center">
+                                            {{ job.address }}
+                                        </td>
+                                        <td class="center ">
+                                            {{ job.type }}
+                                        </td>
+                                        <td class="center">
+                                            {{ job.educational }}
+                                        </td>
+                                        <td class="center">{{ job.workExperience }}</td>
+                                        <td class="center">{{ job.workTag }}</td>
+                                        <td class="center">
+                                            {% if job.pratice %}
+                                                {{ job.salary }}/天
+                                            {% else %}
+                                                {{ job.salary }}/月
+                                            {% endif %}
+                                        </td>
+                                        <td class="center">
+                                            {% if job.salaryMonth != '0' %}
+                                                {{ job.salaryMonth }}薪
+                                            {% else %}
+                                                无
+                                            {% endif %}
+                                        </td>
+                                        <td class="center">
+                                            {% if job.pratice != 0 %}
+                                                实习岗位
+                                            {% else %}
+                                                正常岗位
+                                            {% endif %}
+                                        </td>
+                                        <td class="center">{{ job.companyTitle }}</td>
+                                        <td class="center">{{ job.companyTags }}</td>
+                                        <td class="center">
+                                            <img src="{{ job.companyAvatar }}" alt="">
+                                        </td>
+                                        <td class="center">
+                                            {{ job.companyStatus }}</td>
+                                        </td>
+                                        <td class="center">
+                                            {{ job.companyPeople }}
+                                        </td>
+                                        <td class="center"
+                                            style="display: flex; flex-direction: column; align-items: center;">
+                                            <a href="{{ job.detailUrl }}" class="btn btn-info"
+                                               style="margin-bottom: 5px">岗位详情</a>
+                                            <a href="{{ job.companyUrl }}" class="btn btn-success"
+                                               style="margin-bottom: 5px">公司详情</a>
+                                            <a href="/myApp/addHistorys/{{ job.id }}" type="button"
+                                               class="btn btn-danger">添加历史</a>
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div><!-- Footer -->
+
+
+
+        <footer class="main">
+            Copyright &copy; python工程师全国招聘数据可视化<a target="_blank" href="https://www.ccjinblog.info/"> &ensp;毕业设计</a>
+
+        </footer>
+    </div>
+
+
+    <div id="chat" class="fixed" data-current-user="Art Ramadani" data-order-by-status="1" data-max-chat-history="25">
+
+        <div class="chat-inner">
+
+
+            <h2 class="chat-header">
+                <a href="#" class="chat-close" data-animate="1"><i class="entypo-cancel"></i></a>
+
+                <i class="entypo-users"></i>
+                Chat
+                <span class="badge badge-success is-hidden">0</span>
+            </h2>
+
+
+            <div class="chat-group" id="group-1">
+                <strong>Favorites</strong>
+
+                <a href="#" id="sample-user-123" data-conversation-history="#sample_history"><span
+                        class="user-status is-online"></span> <em>Catherine J. Watkins</em></a>
+                <a href="#"><span class="user-status is-online"></span> <em>Nicholas R. Walker</em></a>
+                <a href="#"><span class="user-status is-busy"></span> <em>Susan J. Best</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Brandon S. Young</em></a>
+                <a href="#"><span class="user-status is-idle"></span> <em>Fernando G. Olson</em></a>
+            </div>
+
+
+            <div class="chat-group" id="group-2">
+                <strong>Work</strong>
+
+                <a href="#"><span class="user-status is-offline"></span> <em>Robert J. Garcia</em></a>
+                <a href="#" data-conversation-history="#sample_history_2"><span class="user-status is-offline"></span>
+                    <em>Daniel A. Pena</em></a>
+                <a href="#"><span class="user-status is-busy"></span> <em>Rodrigo E. Lozano</em></a>
+            </div>
+
+
+            <div class="chat-group" id="group-3">
+                <strong>Social</strong>
+
+                <a href="#"><span class="user-status is-busy"></span> <em>Velma G. Pearson</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Margaret R. Dedmon</em></a>
+                <a href="#"><span class="user-status is-online"></span> <em>Kathleen M. Canales</em></a>
+                <a href="#"><span class="user-status is-offline"></span> <em>Tracy J. Rodriguez</em></a>
+            </div>
+
+        </div>
+
+        <!-- conversation template -->
+        <div class="chat-conversation">
+
+            <div class="conversation-header">
+                <a href="#" class="conversation-close"><i class="entypo-cancel"></i></a>
+
+                <span class="user-status"></span>
+                <span class="display-name"></span>
+                <small></small>
+            </div>
+
+            <ul class="conversation-body">
+            </ul>
+
+            <div class="chat-textarea">
+                <textarea class="form-control autogrow" placeholder="Type your message"></textarea>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Chat Histories -->
+    <ul class="chat-history" id="sample_history">
+        <li>
+            <span class="user">Art Ramadani</span>
+            <p>Are you here?</p>
+            <span class="time">09:00</span>
+        </li>
+
+        <li class="opponent">
+            <span class="user">Catherine J. Watkins</span>
+            <p>This message is pre-queued.</p>
+            <span class="time">09:25</span>
+        </li>
+
+        <li class="opponent">
+            <span class="user">Catherine J. Watkins</span>
+            <p>Whohoo!</p>
+            <span class="time">09:26</span>
+        </li>
+
+        <li class="opponent unread">
+            <span class="user">Catherine J. Watkins</span>
+            <p>Do you like it?</p>
+            <span class="time">09:27</span>
+        </li>
+    </ul>
+
+
+    <!-- Chat Histories -->
+    <ul class="chat-history" id="sample_history_2">
+        <li class="opponent unread">
+            <span class="user">Daniel A. Pena</span>
+            <p>I am going out.</p>
+            <span class="time">08:21</span>
+        </li>
+
+        <li class="opponent unread">
+            <span class="user">Daniel A. Pena</span>
+            <p>Call me when you see this message.</p>
+            <span class="time">08:27</span>
+        </li>
+    </ul>
+</div>
+
+<!-- Sample Modal (Default skin) -->
+<div class="modal fade" id="sample-modal-dialog-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Widget Options - Default Modal</h4>
+            </div>
+
+            <div class="modal-body">
+                <p>Now residence dashwoods she excellent you. Shade being under his bed her. Much read on as draw.
+                    Blessing for ignorant exercise any yourself unpacked. Pleasant horrible but confined day end
+                    marriage. Eagerness furniture set preserved far recommend. Did even but nor are most gave hope.
+                    Secure active living depend son repair day ladies now.</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sample Modal (Skin inverted) -->
+<div class="modal invert fade" id="sample-modal-dialog-2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Widget Options - Inverted Skin Modal</h4>
+            </div>
+
+            <div class="modal-body">
+                <p>Now residence dashwoods she excellent you. Shade being under his bed her. Much read on as draw.
+                    Blessing for ignorant exercise any yourself unpacked. Pleasant horrible but confined day end
+                    marriage. Eagerness furniture set preserved far recommend. Did even but nor are most gave hope.
+                    Secure active living depend son repair day ladies now.</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sample Modal (Skin gray) -->
+<div class="modal gray fade" id="sample-modal-dialog-3">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Widget Options - Gray Skin Modal</h4>
+            </div>
+
+            <div class="modal-body">
+                <p>Now residence dashwoods she excellent you. Shade being under his bed her. Much read on as draw.
+                    Blessing for ignorant exercise any yourself unpacked. Pleasant horrible but confined day end
+                    marriage. Eagerness furniture set preserved far recommend. Did even but nor are most gave hope.
+                    Secure active living depend son repair day ladies now.</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="/static/css/jquery-jvectormap-1.2.2.css">
+<link rel="stylesheet" href="/static/css/rickshaw.min.css">
+<link rel="stylesheet" href="/static/css/datatables.responsive.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="/static/css/select2-bootstrap.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="/static/css/select2.css" media="print" onload="this.media='all'">
+
+
+<!-- Bottom Scripts -->
+<script src="/static/js/main-gsap.js"></script>
+<script src="/static/js/jquery-ui-1.10.3.minimal.min.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/joinable.js"></script>
+<script src="/static/js/resizeable.js"></script>
+<script src="/static/js/neon-api.js"></script>
+<script src="/static/js/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="/static/js/jquery-jvectormap-europe-merc-en.js"></script>
+<script src="/static/js/jquery-jvectormap-world-mill-en.js"></script>
+<script src="/static/js/jquery.sparkline.min.js"></script>
+<script src="/static/js/d3.v3.js"></script>
+<script src="/static/js/rickshaw.min.js"></script>
+<script src="/static/js/neon-chat.js"></script>
+<script src="/static/js/neon-custom.js"></script>
+<script src="/static/js/neon-demo.js"></script>
+<script src="/static/js/echarts.js"></script>
+<script src="/static/js/jquery.dataTables.min.js" defer></script>
+<script src="/static/js/TableTools.min.js" defer></script>
+<script src="/static/js/dataTables.bootstrap.js" defer></script>
+<script src="/static/js/jquery.dataTables.columnFilter.js" defer></script>
+<script src="/static/js/lodash.min.js" defer></script>
+<script src="/static/js/datatables.responsive.js" defer></script>
+
+{#提高css加载速度#}
+<script>
+    function loadCSS(href) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = href;
+        document.head.appendChild(link);
+    }
+
+    loadCSS("/static/css/datatables.responsive.css");
+    loadCSS("/static/css/select2-bootstrap.css");
+    loadCSS("/static/css/select2.css");
+</script>
+
+
+<script type="text/javascript" defer>
+    var responsiveHelper;
+    var breakpointDefinition = {
+        tablet: 1024,
+        phone: 480
+    };
+    var tableContainer;
+
+    jQuery(document).ready(function ($) {
+        tableContainer = $("#table-1");
+
+        tableContainer.dataTable({
+            "sPaginationType": "bootstrap",
+            "aLengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+            "bStateSave": true,
+
+
+            // Responsive Settings
+            bAutoWidth: false,
+            fnPreDrawCallback: function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper) {
+                    responsiveHelper = new ResponsiveDatatablesHelper(tableContainer, breakpointDefinition);
+                }
+            },
+            fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                responsiveHelper.createExpandIcon(nRow);
+            },
+            fnDrawCallback: function (oSettings) {
+                responsiveHelper.respond();
+            }
+        });
+
+        $(".dataTables_wrapper select").select2({
+            minimumResultsForSearch: -1
+        });
+    });
+</script>
+<script>
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    // 获取原始数据并只取前4项
+    var userCreateData = {{ userCreateData | safe }};
+    var filteredData = userCreateData.slice(0, 4);  // 只取前4个数据项
+
+    option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [
+            {
+                name: '用户数量',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: 18,
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                {#data: {{ userCreateData | safe }}#}
+                data: filteredData
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+
+</script>
+<script>
+    var charDom = document.getElementById('mainTwo')
+    let data = {{ jobsPBarData | safe}}
+        console.log(data)
+    var myChart = echarts.init(charDom)
+    let xRes = [];
+    let yRes = [];
+    let yResTwo = []
+    for (var i = 0; i < 5; i++) {
+        xRes.push(data[i][0])
+        yRes.push(data[i][1])
+        yResTwo.push(data[i][2])
+    }
+    let options = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#283b56'
+                }
+            }
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataView: {readOnly: false},
+                magicType: {type: ['line', 'bar']},
+                saveAsImage: {}
+            }
+        },
+        legend: {
+            data: ['爬取数据量', '数据平均值']
+        },
+        xAxis: {
+            type: 'category',
+            data: xRes, // 把时间组成的数组接过来，放在x轴上
+            boundaryGap: true
+        },
+        yAxis: [
+            {
+                type: 'value',
+                name: '爬取数据量',
+                axisLabel: {
+                    formatter: '{value} 个'
+                }
+            },
+            {
+                type: 'value',
+                name: '数据平均值',
+                min: 0,
+                max: 1,
+                axisLabel: {
+                    formatter: '{value} %'
+                },
+                splitLine: {show: false},
+            }],
+        series: [
+            {
+                data: yRes,
+                type: 'bar',
+                name: '爬取数据量',
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                color: {
+                    type: 'linear',
+                    x: 0, //右
+                    y: 0, //下
+                    x2: 0, //左
+                    y2: 1, //上
+                    colorStops: [
+                        {
+                            offset: 0,
+                            color: '#11d56d' // 0% 处的颜色
+                        },
+                        {
+                            offset: 1,
+                            color: '#83bff6' // 100% 处的颜色
+                        }
+                    ]
+                }
+            },
+            {
+                data: yResTwo,
+                type: 'bar',
+                name: '数据平均值',
+                yAxisIndex: 1,
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                color: {
+                    type: 'linear',
+                    x: 0,
+                    y: 0,
+                    x2: 0,
+                    y2: 1,
+                    colorStops: [
+                        {offset: 0, color: '#cd7cf3'},
+                        {offset: 1, color: '#de5df2'}
+                    ]
+                },
+            }
+        ]
+    }
+    let count = 5;
+    setInterval(() => {
+        if (count >= data.length) count = 0
+        xRes.shift()
+        xRes.push(data[count][0])
+        yRes.shift()
+        yRes.push(data[count][1])
+        yResTwo.shift()
+        yResTwo.push(data[count][2])
+
+        count++
+
+        myChart.setOption({
+            xAxis: [{
+                data: xRes
+            }],
+            series: [
+                {
+                    data: yRes
+                },
+                {
+                    data: yResTwo
+                }
+            ]
+        })
+    }, 2000)
+
+
+    options && myChart.setOption(options)
+</script>
+</body>
+</html>

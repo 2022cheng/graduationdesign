@@ -1,0 +1,286 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Neon Admin Panel">
+    <meta name="author" content="">
+
+    <title>更多功能</title>
+    <link rel="stylesheet" href="/static/css/jquery-ui-1.10.3.custom.min.css">
+    <link rel="stylesheet" href="/static/css/entypo.css">
+    <link rel="stylesheet" href="/static/css/css.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/neon-core.css">
+    <link rel="stylesheet" href="/static/css/neon-theme.css">
+    <link rel="stylesheet" href="/static/css/neon-forms.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
+
+    <script src="/static/js/jquery-1.11.0.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        /* 添加到您现有的CSS中或页面的<style>标签内 */
+        .coming-soon {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin: 20px auto; /* 添加外边距使其不紧贴其他元素 */
+        }
+
+        .coming-soon h2 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .coming-soon p {
+            color: #666;
+            font-size: 16px;
+            text-align: center;
+            max-width: 80%;
+        }
+
+        .coming-soon .icon {
+            font-size: 60px;
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .coming-soon {
+            animation: pulse 3s infinite ease-in-out;
+        }
+    </style>
+
+</head>
+<body class="page-body  page-left-in" data-url="http://neon.dev">
+
+<div class="page-container">
+    <div class="sidebar-menu">
+        <header class="logo-env">
+            <div class="logo">
+                <a style="white-space: normal;text-align: center;" href="index.html">
+                    <h3 style="color: #fff1f0; font-weight: bold; margin-top: 5px;">
+                        python工程师全国招聘信息可视化平台</h3>
+                </a>
+            </div>
+        </header>
+        <div class="sidebar-user-info">
+
+            <div class="sui-normal">
+                <a href="#" class="user-link">
+                    <img style="width:95%;border-radius:50%" src="/media/{{ userInfo.avatar }}" width="120" alt="">
+                    <span style="text-align:center;padding-top:209px">欢迎回来,</span>
+                    <strong style="text-align:center;margin-top:5px">{{ userInfo.username }}</strong>
+                </a>
+            </div>
+        </div>
+        <ul id="main-menu" class="">
+            <li>
+                <a href="/myApp/home">
+                    <i class="entypo-gauge"></i>
+                    <span>首页</span>
+                </a>
+            </li>
+            <li class="opened active">
+                <a href="#">
+                    <i class="entypo-user"></i>
+                    <span>个人中心</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/selfInfo">
+                            <span>个人信息</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/myApp/changePassword">
+                            <span>修改密码</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-layout"></i>
+                    <span>数据统计</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/tableData">
+                            <span>数据总览</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/historyTableData">
+                            <span>历史查阅</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-chart-pie"></i>
+                    <span>可视化图表</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/salary">
+                            <i class="entypo-light-down"></i>
+                            <span>薪资情况</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/company">
+                            <i class="entypo-feather"></i>
+                            <span>企业情况</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/companyTags">
+                            <i class="entypo-feather"></i>
+                            <span>福利词云</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/educational">
+                            <i class="entypo-graduation-cap"></i>
+                            <span>学历分布</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/companyStatus">
+                            <i class="entypo-network"></i>
+                            <span>企业融资</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/address">
+                            <i class="entypo-rocket"></i>
+                            <span>城市类型</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-dribbble-circled"></i>
+                    <span>薪资预测</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/salarypredict">
+                            <i class="entypo-github"></i>
+                            <span>薪资预测</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/morePredict">
+                            <i class="entypo-chart-bar"></i>
+                            <span>薪资预测plus</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/moreAction">
+                            <i class="entypo-twitter"></i>
+                            <span> more action </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="row" style="display:flex">
+            <div style="margin-left: auto" class="col-md-6 col-sm-4 clearfix hidden-xs">
+
+                <ul class="list-inline links-list pull-right">
+                    <li class="sep"></li>
+
+                    <li>
+                        <a href="/myApp/logOut">
+                            退出登录<i class="entypo-logout right"></i>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+        <!-- 在您现有HTML页面的任意位置插入这段代码 -->
+        <div class="coming-soon-container">
+            <div class="coming-soon" style="margin-top: 220px; margin-bottom: 220px">
+                <div class="icon">🚀</div>
+                <h2>敬请期待</h2>
+                <p>更多精彩功能正在开发中，即将为您呈现</p>
+            </div>
+        </div>
+
+        <footer class="main">
+            Copyright &copy; python工程师全国招聘数据可视化<a target="_blank" href="https://www.ccjinblog.info/"> &ensp;毕业设计</a>
+        </footer>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="/static/css/jquery-jvectormap-1.2.2.css">
+<link rel="stylesheet" href="/static/css/rickshaw.min.css">
+<link rel="stylesheet" href="/static/css/datatables.responsive.css">
+<link rel="stylesheet" href="/static/css/select2-bootstrap.css">
+<link rel="stylesheet" href="/static/css/select2.css">
+<!-- Bottom Scripts -->
+<script src="/static/js/main-gsap.js"></script>
+<script src="/static/js/jquery-ui-1.10.3.minimal.min.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/joinable.js"></script>
+<script src="/static/js/resizeable.js"></script>
+<script src="/static/js/neon-api.js"></script>
+<script src="/static/js/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="/static/js/jquery-jvectormap-europe-merc-en.js"></script>
+<script src="/static/js/jquery-jvectormap-world-mill-en.js"></script>
+<script src="/static/js/jquery.sparkline.min.js"></script>
+<script src="/static/js/d3.v3.js"></script>
+<script src="/static/js/rickshaw.min.js"></script>
+<script src="/static/js/neon-chat.js"></script>
+<script src="/static/js/neon-custom.js"></script>
+<script src="/static/js/neon-demo.js"></script>
+<script src="/static/js/echarts.js"></script>
+<script src="/static/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/TableTools.min.js"></script>
+<script src="/static/js/dataTables.bootstrap.js"></script>
+<script src="/static/js/jquery.dataTables.columnFilter.js"></script>
+<script src="/static/js/lodash.min.js"></script>
+<script src="/static/js/datatables.responsive.js"></script>
+<script src="/static/js/fileinput.js"></script>
+</body>
+</html>

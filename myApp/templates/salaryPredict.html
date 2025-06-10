@@ -1,0 +1,771 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Neon Admin Panel">
+    <meta name="author" content="">
+
+    <title>薪资预测</title>
+    <link rel="stylesheet" href="/static/css/jquery-ui-1.10.3.custom.min.css">
+    <link rel="stylesheet" href="/static/css/entypo.css">
+    <link rel="stylesheet" href="/static/css/css.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/neon-core.css">
+    <link rel="stylesheet" href="/static/css/neon-theme.css">
+    <link rel="stylesheet" href="/static/css/neon-forms.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
+
+    <script src="/static/js/jquery-1.11.0.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        /* 主容器优化 */
+        .panel-primary {
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            max-width: 820px;
+            margin: 20px auto;
+            border: none;
+        }
+
+        /* 标题栏 */
+        .panel-heading {
+            background: linear-gradient(135deg, #4a6bdf 0%, #6b46c1 100%) !important;
+            border-radius: 12px 12px 0 0 !important;
+            padding: 22px;
+            border: none;
+        }
+
+        .panel-title {
+            font-size: 22px !important;
+            color: white !important;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* 表单布局优化 */
+        .form-horizontal {
+            padding: 20px 30px;
+        }
+
+        .form-horizontal .control-label {
+            font-size: 15px !important;
+            color: #4a5568 !important;
+            padding-top: 14px;
+            width: 28%;
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        .form-horizontal .col-sm-9 {
+            width: 72%;
+            float: left;
+        }
+
+        /* 输入框样式 */
+        .form-control {
+            font-size: 14px !important;
+            height: 42px !important;
+            border-radius: 6px !important;
+            border: 1px solid #d1d5db !important;
+            transition: all 0.25s ease;
+        }
+
+        .form-control:focus {
+            border-color: #4a6bdf !important;
+            box-shadow: 0 0 0 3px rgba(74, 107, 223, 0.1) !important;
+        }
+
+        /* 按钮样式 */
+        .btn-primary {
+            background: #4a6bdf !important;
+            border: none !important;
+            padding: 10px 28px !important;
+            font-size: 15px !important;
+            border-radius: 6px !important;
+            transition: all 0.25s ease;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background: #3b5bc7 !important;
+            transform: translateY(-1px);
+        }
+
+        /* 结果展示区 */
+        #predictionResult {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 30px;
+            border: 1px solid #e2e8f0;
+        }
+
+        #predictedSalary {
+            color: #4a6bdf;
+            font-size: 28px !important;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+
+        .well {
+            background: white !important;
+            border-radius: 8px !important;
+            padding: 1.5rem !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 辅助元素 */
+        hr {
+            border-color: #e2e8f0 !important;
+            margin: 1.2rem 0 !important;
+        }
+
+        .btn-success {
+            background: #4a6bdf !important;
+            padding: 10px 24px !important;
+            margin-top: 1rem;
+            font-size: 14px !important;
+            border-radius: 6px !important;
+        }
+
+        .form-group {
+            margin-bottom: 1.4rem !important;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .form-horizontal .control-label,
+            .form-horizontal .col-sm-9 {
+                width: 100%;
+                text-align: left;
+                padding-right: 0;
+            }
+
+            .panel-primary {
+                margin: 10px;
+                border-radius: 8px;
+            }
+
+            #predictionResult {
+                margin: 1rem 15px;
+            }
+        }
+    </style>
+
+
+</head>
+<body class="page-body  page-left-in" data-url="http://neon.dev">
+
+<div class="page-container">
+    <div class="sidebar-menu">
+        <header class="logo-env">
+            <div class="logo">
+                <a style="white-space: normal;text-align: center;" href="index.html">
+                    <h3 style="color: #fff1f0; font-weight: bold; margin-top: 5px;">
+                        python工程师全国招聘信息可视化平台</h3>
+                </a>
+            </div>
+        </header>
+        <div class="sidebar-user-info">
+
+            <div class="sui-normal">
+                <a href="#" class="user-link">
+                    <img style="width:95%;border-radius:50%" src="/media/{{ userInfo.avatar }}" width="120" alt="">
+                    <span style="text-align:center;padding-top:209px">欢迎回来,</span>
+                    <strong style="text-align:center;margin-top:5px">{{ userInfo.username }}</strong>
+                </a>
+            </div>
+        </div>
+        <ul id="main-menu" class="">
+            <li>
+                <a href="/myApp/home">
+                    <i class="entypo-gauge"></i>
+                    <span>首页</span>
+                </a>
+            </li>
+            <li class="opened active">
+                <a href="#">
+                    <i class="entypo-user"></i>
+                    <span>个人中心</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/selfInfo">
+                            <span>个人信息</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/myApp/changePassword">
+                            <span>修改密码</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-layout"></i>
+                    <span>数据统计</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/tableData">
+                            <span>数据总览</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/historyTableData">
+                            <span>历史查阅</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-chart-pie"></i>
+                    <span>可视化图表</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/salary">
+                            <i class="entypo-light-down"></i>
+                            <span>薪资情况</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/company">
+                            <i class="entypo-feather"></i>
+                            <span>企业情况</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/companyTags">
+                            <i class="entypo-feather"></i>
+                            <span>福利词云</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/educational">
+                            <i class="entypo-graduation-cap"></i>
+                            <span>学历分布</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/companyStatus">
+                            <i class="entypo-network"></i>
+                            <span>企业融资</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/address">
+                            <i class="entypo-rocket"></i>
+                            <span>城市类型</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="entypo-dribbble-circled"></i>
+                    <span>薪资预测</span>
+                </a>
+                <ul>
+                    <li>
+                        <a href="/myApp/salarypredict">
+                            <i class="entypo-github"></i>
+                            <span>薪资预测</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/morePredict">
+                            <i class="entypo-chart-bar"></i>
+                            <span>薪资预测plus</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myApp/moreAction">
+                            <i class="entypo-twitter"></i>
+                            <span> more action </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <div class="row" style="display:flex">
+
+            <div style="margin-left: auto" class="col-md-6 col-sm-4 clearfix hidden-xs">
+
+                <ul class="list-inline links-list pull-right">
+                    <li class="sep"></li>
+
+                    <li>
+                        <a href="/myApp/logOut">
+                            退出登录<i class="entypo-logout right"></i>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">Python工程师薪资预测</div>
+                </div>
+                <hr style="margin-top: 10px">
+
+
+                {#                    <!-- 预测表单 -->#}
+                {#                    <form id="salaryPredictionForm" class="form-horizontal">#}
+                {#                        <!-- 模型选择部分 -->#}
+                {#                        <div class="form-group">#}
+                {#                            <label class="col-sm-3 control-label">预测模型</label>#}
+                {#                            <div class="col-sm-9">#}
+                {#                                <select class="form-control" id="modelType" name="modelType" required>#}
+                {#                                    <option value="random_forest">随机森林模型</option>#}
+                {#                                    <option value="gradient_boosting">梯度提升模型</option>#}
+                {#                                </select>#}
+                {#                                <small class="text-muted">请选择要使用的预测模型</small>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {##}
+                {##}
+                {#                        <hr style="margin-top: 10px">#}
+                {##}
+                {#                        <!-- 工作城市 -->#}
+                {#                        <div class="form-group">#}
+                {#                            <label class="col-sm-3 control-label">工作城市</label>#}
+                {#                            <div class="col-sm-9">#}
+                {#                                <select class="form-control" id="address" name="address" required>#}
+                {#                                    <option value="">-- 请选择城市 --</option>#}
+                {#                                    <option value="北京">北京</option>#}
+                {#                                    <option value="上海">上海</option>#}
+                {#                                    <option value="深圳">深圳</option>#}
+                {#                                    <option value="广州">广州</option>#}
+                {#                                    <option value="杭州">杭州</option>#}
+                {#                                    <option value="成都">成都</option>#}
+                {#                                    <option value="其他">其他城市</option>#}
+                {#                                </select>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {##}
+                {#                        <hr style="margin-top: 10px">#}
+                {#                        <!-- 职位类型 -->#}
+                {#                        <div class="form-group">#}
+                {#                            <label class="col-sm-3 control-label">职位类型</label>#}
+                {#                            <div class="col-sm-9">#}
+                {#                                <select class="form-control" id="type" name="type" required>#}
+                {#                                    <option value="python工程师">Python工程师</option>#}
+                {#                                    <option value="python开发工程师">Python开发工程师</option>#}
+                {#                                    <option value="python高级工程师">Python高级工程师</option>#}
+                {#                                    <option value="python架构师">Python架构师</option>#}
+                {#                                </select>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                        <hr style="margin-top: 10px">#}
+                {##}
+                {#                        <!-- 学历要求 -->#}
+                {#                        <div class="form-group">#}
+                {#                            <label class="col-sm-3 control-label">学历要求</label>#}
+                {#                            <div class="col-sm-9">#}
+                {#                                <select class="form-control" id="educational" name="educational" required>#}
+                {#                                    <option value="学历不限">学历不限</option>#}
+                {#                                    <option value="大专">大专</option>#}
+                {#                                    <option value="本科">本科</option>#}
+                {#                                    <option value="硕士">硕士</option>#}
+                {#                                    <option value="博士">博士</option>#}
+                {#                                </select>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                        <hr style="margin-top: 10px">#}
+                {##}
+                {#                        <!-- 工作经验 -->#}
+                {#                        <div class="form-group">#}
+                {#                            <label class="col-sm-3 control-label">工作经验</label>#}
+                {#                            <div class="col-sm-9">#}
+                {#                                <select class="form-control" id="workExperience" name="workExperience" required>#}
+                {#                                    <option value="学历不限">无经验要求</option>#}
+                {#                                    <option value="1年以下">1年以下</option>#}
+                {#                                    <option value="1-3年">1-3年</option>#}
+                {#                                    <option value="3-5年">3-5年</option>#}
+                {#                                    <option value="5-10年">5-10年</option>#}
+                {#                                    <option value="10年以上">10年以上</option>#}
+                {#                                </select>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                        <hr style="margin-top: 10px">#}
+                {##}
+                {#                        <!-- 公司规模 -->#}
+                {#                        <div class="form-group">#}
+                {#                            <label class="col-sm-3 control-label">公司规模</label>#}
+                {#                            <div class="col-sm-9">#}
+                {#                                <select class="form-control" id="companyPeople" name="companyPeople" required>#}
+                {#                                    <option value="[0,20]">0-20人</option>#}
+                {#                                    <option value="[20,99]">20-99人</option>#}
+                {#                                    <option value="[100,499]">100-499人</option>#}
+                {#                                    <option value="[500,999]">500-999人</option>#}
+                {#                                    <option value="[1000,9999]">1000-9999人</option>#}
+                {#                                    <option value="[10000,+]">10000人以上</option>#}
+                {#                                </select>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                        <hr style="margin-top: 10px">#}
+                {##}
+                {#                        <!-- 公司融资状态 -->#}
+                {#                        <div class="form-group">#}
+                {#                            <label class="col-sm-3 control-label">融资状态</label>#}
+                {#                            <div class="col-sm-9">#}
+                {#                                <select class="form-control" id="companyStatus" name="companyStatus" required>#}
+                {#                                    <option value="不需要融资">不需要融资</option>#}
+                {#                                    <option value="天使轮">天使轮</option>#}
+                {#                                    <option value="A轮">A轮</option>#}
+                {#                                    <option value="B轮">B轮</option>#}
+                {#                                    <option value="C轮">C轮</option>#}
+                {#                                    <option value="D轮及以上">D轮及以上</option>#}
+                {#                                    <option value="已上市">已上市</option>#}
+                {#                                </select>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                        <hr style="margin-top: 10px">#}
+                {##}
+                {#                        <div class="form-group">#}
+                {#                            <div class="col-sm-offset-3 col-sm-9">#}
+                {#                                <button type="submit" class="btn btn-primary">开始预测</button>#}
+                {#                            </div>#}
+                {#                        </div>#}
+                {#                    </form>#}
+                {##}
+                {##}
+                {#                    <!-- 预测结果展示区域 -->#}
+                {#                    {% if predicted_salary %}#}
+                {#                        <div id="predictionResult" class="text-center" style="margin-top:30px;">#}
+                {#                            <h3>预测结果</h3>#}
+                {#                            <div class="well" style="fonts-size:24px;">#}
+                {#                                <span id="predictedSalary"> {% if predicted_salary %} {{ predicted_salary }}元/月  {% endif %} </span>#}
+                {#                            </div>#}
+                {#                            <div id="modelInfo" class="text-muted">预测模型：{{ request.GET.modelType }}</div>#}
+                {#                            <div id="confidenceLevel" class="text-muted">结果仅供参考</div>#}
+                {#                        </div>#}
+                {#                    {% endif %}#}
+                <!-- 预测表单 -->
+                <form id="salaryPredictionForm" class="form-horizontal" style="font-size: 24px;">
+                    <!-- 模型选择部分 -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">预测模型</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="modelType" name="modelType" required>
+                                <option value="random_forest"
+                                        {% if request.GET.modelType == 'random_forest' %}selected{% endif %}>随机森林模型
+                                </option>
+                                <option value="gradient_boosting"
+                                        {% if request.GET.modelType == 'gradient_boosting' %}selected{% endif %}>
+                                    梯度提升模型
+                                </option>
+                            </select>
+                            <small class="text-muted">请选择要使用的预测模型</small>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 10px">
+
+                    <!-- 工作城市 -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">工作城市</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="address" name="address" required>
+                                <option value="">-- 请选择城市 --</option>
+                                <option value="北京" {% if request.GET.address == '北京' %}selected{% endif %}>
+                                    北京
+                                </option>
+                                <option value="上海" {% if request.GET.address == '上海' %}selected{% endif %}>
+                                    上海
+                                </option>
+                                <option value="深圳" {% if request.GET.address == '深圳' %}selected{% endif %}>
+                                    深圳
+                                </option>
+                                <option value="广州" {% if request.GET.address == '广州' %}selected{% endif %}>
+                                    广州
+                                </option>
+                                <option value="杭州" {% if request.GET.address == '杭州' %}selected{% endif %}>
+                                    杭州
+                                </option>
+                                <option value="成都" {% if request.GET.address == '成都' %}selected{% endif %}>
+                                    成都
+                                </option>
+                                <option value="其他" {% if request.GET.address == '其他' %}selected{% endif %}>
+                                    其他城市
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 10px">
+
+                    <!-- 职位类型 -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">职位类型</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="type" name="type" required>
+                                <option value="python工程师"
+                                        {% if request.GET.type == 'python工程师' %}selected{% endif %}>Python工程师
+                                </option>
+                                <option value="python后端工程师"
+                                        {% if request.GET.type == 'python后端工程师' %}selected{% endif %}>Python后端
+                                </option>
+                                <option value="AI工程师" {% if request.GET.type == 'AI训练工程师' %}selected{% endif %}>
+                                    AI
+                                </option>
+                                <option value="机器学习"
+                                        {% if request.GET.type == '机器学习工程师' %}selected{% endif %}>
+                                    机器学习
+                                </option>
+                                <option value="python数据分析工程师"
+                                        {% if request.GET.type == 'python数据分析工程师' %}selected{% endif %}>
+                                    Python数据分析
+                                </option>
+                                <option value="python爬虫工程师"
+                                        {% if request.GET.type == 'python爬虫工程师' %}selected{% endif %}>Python爬虫
+                                </option>
+                                <option value="python工程师"
+                                        {% if request.GET.type == 'python工程师' %}selected{% endif %}>
+                                    Python
+                                </option>
+                                <option value="python测试工程师"
+                                        {% if request.GET.type == 'python测试工程师' %}selected{% endif %}>Python测试
+                                </option>
+                                <option value="算法工程师"
+                                        {% if request.GET.type == '算法工程师' %}selected{% endif %}>算法工程师
+                                </option>
+                                <option value="python大数据工程师"
+                                        {% if request.GET.type == 'python大数据工程师' %}selected{% endif %}>Python大数据
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 10px">
+
+                    <!-- 学历要求 -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">学历要求</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="educational" name="educational" required>
+                                <option value="学历不限"
+                                        {% if request.GET.educational == '学历不限' %}selected{% endif %}>学历不限
+                                </option>
+                                <option value="大专" {% if request.GET.educational == '大专' %}selected{% endif %}>
+                                    大专
+                                </option>
+                                <option value="本科" {% if request.GET.educational == '本科' %}selected{% endif %}>
+                                    本科
+                                </option>
+                                <option value="硕士" {% if request.GET.educational == '硕士' %}selected{% endif %}>
+                                    硕士
+                                </option>
+                                <option value="博士" {% if request.GET.educational == '博士' %}selected{% endif %}>
+                                    博士
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 10px">
+
+                    <!-- 工作经验 -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">工作经验</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="workExperience" name="workExperience" required>
+                                <option value="学历不限"
+                                        {% if request.GET.workExperience == '无经验要求' %}selected{% endif %}>无经验要求
+                                </option>
+                                <option value="1年以下"
+                                        {% if request.GET.workExperience == '1年以下' %}selected{% endif %}>1年以下
+                                </option>
+                                <option value="1-3年"
+                                        {% if request.GET.workExperience == '1-3年' %}selected{% endif %}>1-3年
+                                </option>
+                                <option value="3-5年"
+                                        {% if request.GET.workExperience == '3-5年' %}selected{% endif %}>3-5年
+                                </option>
+                                <option value="5-10年"
+                                        {% if request.GET.workExperience == '5-10年' %}selected{% endif %}>5-10年
+                                </option>
+                                <option value="10年以上"
+                                        {% if request.GET.workExperience == '10年以上' %}selected{% endif %}>10年以上
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 10px">
+
+                    <!-- 公司规模 -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">公司规模</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="companyPeople" name="companyPeople" required>
+                                <option value="[0,20]"
+                                        {% if request.GET.companyPeople == '[0,20]' %}selected{% endif %}>0-20人
+                                </option>
+                                <option value="[20,99]"
+                                        {% if request.GET.companyPeople == '[20,99]' %}selected{% endif %}>20-99人
+                                </option>
+                                <option value="[100,499]"
+                                        {% if request.GET.companyPeople == '[100,499]' %}selected{% endif %}>
+                                    100-499人
+                                </option>
+                                <option value="[500,999]"
+                                        {% if request.GET.companyPeople == '[500,999]' %}selected{% endif %}>
+                                    500-999人
+                                </option>
+                                <option value="[1000,9999]"
+                                        {% if request.GET.companyPeople == '[1000,9999]' %}selected{% endif %}>
+                                    1000-9999人
+                                </option>
+                                <option value="[10000,+]"
+                                        {% if request.GET.companyPeople == '[10000,+]' %}selected{% endif %}>
+                                    10000人以上
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 10px">
+
+                    <!-- 公司融资状态 -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">融资状态</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="companyStatus" name="companyStatus" required>
+                                <option value="不需要融资"
+                                        {% if request.GET.companyStatus == '不需要融资' %}selected{% endif %}>不需要融资
+                                </option>
+                                <option value="天使轮"
+                                        {% if request.GET.companyStatus == '天使轮' %}selected{% endif %}>天使轮
+                                </option>
+                                <option value="A轮" {% if request.GET.companyStatus == 'A轮' %}selected{% endif %}>
+                                    A轮
+                                </option>
+                                <option value="B轮" {% if request.GET.companyStatus == 'B轮' %}selected{% endif %}>
+                                    B轮
+                                </option>
+                                <option value="C轮" {% if request.GET.companyStatus == 'C轮' %}selected{% endif %}>
+                                    C轮
+                                </option>
+                                <option value="D轮及以上"
+                                        {% if request.GET.companyStatus == 'D轮及以上' %}selected{% endif %}>D轮及以上
+                                </option>
+                                <option value="已上市"
+                                        {% if request.GET.companyStatus == '已上市' %}selected{% endif %}>已上市
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 10px">
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <button type="submit" class="btn btn-primary">开始预测</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- 预测结果展示区域 -->
+                {% if predicted_salary %}
+                    <div id="predictionResult" class="text-center">
+                        <h3 style="font-size: 24px; color: #2d3748; margin-bottom: 1.5rem;">预测结果</h3>
+                        <div class="well">
+                            <div style="display: flex; align-items: center; justify-content: center;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"
+                                     fill="#48bb78" style="margin-right: 12px;">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                                <span id="predictedSalary">{{ predicted_salary }}元/月</span>
+                            </div>
+                        </div>
+                        <div class="text-muted" style="font-size: 16px; margin: 1rem 0;">
+                            <span>预测模型：{{ request.GET.modelType }}</span>
+                            <span style="margin: 0 10px">•</span>
+                            <span>置信度：85%</span>
+                        </div>
+                        <button type="button" class="btn btn-success" onclick="exportReport()">
+                            <i class="entypo-download" style="margin-right: 8px;"></i>
+                            导出PDF报告
+                        </button>
+                    </div>
+                {% endif %}
+                <hr style="margin-top: 10px">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<link rel="stylesheet" href="/static/css/jquery-jvectormap-1.2.2.css">
+<link rel="stylesheet" href="/static/css/rickshaw.min.css">
+<link rel="stylesheet" href="/static/css/datatables.responsive.css">
+<link rel="stylesheet" href="/static/css/select2-bootstrap.css">
+<link rel="stylesheet" href="/static/css/select2.css">
+<!-- Bottom Scripts -->
+<script src="/static/js/main-gsap.js"></script>
+<script src="/static/js/jquery-ui-1.10.3.minimal.min.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="/static/js/joinable.js"></script>
+<script src="/static/js/resizeable.js"></script>
+<script src="/static/js/neon-api.js"></script>
+<script src="/static/js/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="/static/js/jquery-jvectormap-europe-merc-en.js"></script>
+<script src="/static/js/jquery-jvectormap-world-mill-en.js"></script>
+<script src="/static/js/jquery.sparkline.min.js"></script>
+<script src="/static/js/d3.v3.js"></script>
+<script src="/static/js/rickshaw.min.js"></script>
+<script src="/static/js/neon-chat.js"></script>
+<script src="/static/js/neon-custom.js"></script>
+<script src="/static/js/neon-demo.js"></script>
+<script src="/static/js/echarts.js"></script>
+<script src="/static/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/TableTools.min.js"></script>
+<script src="/static/js/dataTables.bootstrap.js"></script>
+<script src="/static/js/jquery.dataTables.columnFilter.js"></script>
+<script src="/static/js/lodash.min.js"></script>
+<script src="/static/js/datatables.responsive.js"></script>
+<script src="/static/js/fileinput.js"></script>
+<script>
+    function exportReport() {
+        const form = document.getElementById('salaryPredictionForm');
+        const formData = new FormData(form);
+
+        // 获取预测薪资值
+        const predictedSalary = document.getElementById('predictedSalary').innerText.replace('元/月', '').trim();
+
+        // 创建URL参数
+        const params = new URLSearchParams();
+
+        // 添加表单数据
+        for (const [key, value] of formData.entries()) {
+            params.append(key, value);
+        }
+
+        // 添加预测薪资
+        params.append('predicted_salary', predictedSalary);
+
+        // 打开新窗口下载PDF
+        window.open(`/myApp/exportReport/?${params.toString()}`, '_blank');
+    }
+
+</script>
+
+</body>
+</html>
